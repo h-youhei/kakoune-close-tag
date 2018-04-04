@@ -1,5 +1,11 @@
 #use evaluate-commands to collapse undo
 define-command close-tag %{ evaluate-commands %{
+	#revert removing indent after leaving insert mode<a-l>
+	try %{
+		execute-keys -draft '<a-h>s[^\n]<ret>'
+	} catch %{
+		execute-keys -draft 'K<a-&>'
+	}
 	execute-keys ';Gg<a-;>'
 	%sh{
 		tag_list=`echo "$kak_selection" | grep -P -o '(?<=<)[^>]+(?=>)' | tac`
@@ -26,11 +32,11 @@ define-command close-tag %{ evaluate-commands %{
 		done
 		[ -z $result ] && echo "fail 'no un-closed tag'"
 		echo "set-register dquote </$tag>"
-		echo "execute-keys ';P'"
-	}
-	try %{
-		execute-keys -draft '<a-x>s^\h+'
-		execute-keys -draft 'K<a-&>'
-		execute-keys <
+		echo "execute-keys ';<a-P>'"
+		echo "try %{
+			execute-keys -draft '<a-h>s<lt>$result><ret>'
+		} catch %{
+			execute-keys <
+		}"
 	}
 }}
