@@ -1,6 +1,6 @@
 #use evaluate-commands to collapse undo
 define-command close-tag %{ evaluate-commands %{
-	#revert removing indent after leaving insert mode<a-l>
+	#revert removing indent after leaving insert mode
 	try %{
 		execute-keys -draft '<a-h>s[^\n]<ret>'
 	} catch %{
