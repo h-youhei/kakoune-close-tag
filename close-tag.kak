@@ -39,4 +39,5 @@ define-command close-tag %{ evaluate-commands %{
 			execute-keys <
 		}"
 	}
+	execute-keys '<a-:><right>'
 }}
