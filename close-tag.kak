@@ -8,7 +8,7 @@ define-command close-tag %{ evaluate-commands %{
 	}
 	execute-keys ';Gg<a-;>'
 	%sh{
-		tag_list=`echo "$kak_selection" | grep -P -o '(?<=<)[^>]+(?=>)' | tac`
+		tag_list=`echo "$kak_selection" | grep -P -o '(?<=<)[^>]+(?=>)' | tac | cut -d ' ' -f 1`
 		close=
 		close_stack=
 		result=
@@ -31,10 +31,10 @@ define-command close-tag %{ evaluate-commands %{
 			fi
 		done
 		[ -z $result ] && echo "fail 'no un-closed tag'"
-		echo "set-register dquote </$tag>"
+		echo "set-register dquote </$result>"
 		echo "execute-keys ';<a-P>'"
 		echo "try %{
-			execute-keys -draft '<a-h>s<lt>$result><ret>'
+			execute-keys -draft '<a-h>s<lt>$result[\s>]<ret>'
 		} catch %{
 			execute-keys <
 		}"
