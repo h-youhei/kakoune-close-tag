@@ -7,7 +7,7 @@ define-command close-tag %{ evaluate-commands %{
 		execute-keys -draft 'K<a-&>'
 	}
 	execute-keys ';Gg<a-;>'
-	%sh{
+	evaluate-commands %sh{
 		tag_list=`echo "$kak_selection" | grep -P -o '(?<=<)[^>]+(?=>)' | tac | cut -d ' ' -f 1`
 		close=
 		close_stack=
