@@ -31,13 +31,6 @@ define-command close-tag %{ evaluate-commands %{
 			fi
 		done
 		[ -z $result ] && echo "fail 'no un-closed tag'"
-		echo "set-register dquote </$result>"
-		echo "execute-keys ';<a-P>'"
-		echo "try %{
-			execute-keys -draft '<a-h>s<lt>$result[\s>]<ret>'
-		} catch %{
-			execute-keys <
-		}"
+		echo "execute-keys -with-hooks \;i<lt>/$result><esc>"
 	}
-	execute-keys '<a-:><right>'
 }}
